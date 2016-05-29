@@ -1,0 +1,43 @@
+{% extends 'main_template.html' %}
+
+{% block section1 %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script>
+$(function() {
+var availableTags = [
+    {% for i in list_of_users %}
+        "{{i}}",
+     {% endfor %}
+     ];
+
+$( "#tags" ).autocomplete({
+  source: availableTags
+});
+});
+</script>
+
+
+<p>{{ message }}</p>
+
+<table>
+    <form action="/your-name/" method="post">
+        {% for field in form %}
+            <div>
+                {% csrf_token %}
+                <tr>
+                    <td>{{ field.label_tag }}</td> <td>{{ field }}</td>
+                </tr>
+            </div>
+        {% endfor %}
+
+        
+        <input type="submit" value="Submit" />
+
+     </form>
+</table>
+
+
+{% endblock %}

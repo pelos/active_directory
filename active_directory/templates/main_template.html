@@ -1,0 +1,83 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{% static "style/style.css" %}">
+    </head>
+
+    <body>
+        <table border="1" style="width:100%">
+            <tr>
+                <td bgcolor="#00FF00">
+
+                    <!--<div class="nav-wrapper">-->
+                        <!--<nav class="nav-menu">-->
+                            <!--<ul class="clearfix">-->
+                                <!--<li><a href="/">Home</a></li>-->
+
+                                <!--<li><a href="/Contributors">PMP</a>-->
+                                    <!--<ul class="sub-menu">-->
+                                        <!--<li><a href="/order">Order</a></li>-->
+                                        <!--<li><a href="/pmp_formulas">PMP Formulas</a></li>-->
+                                        <!--<li><a href="/pmp_flash_cards">PMP Flash Cards</a></li>-->
+                                        <!--<li><a href="/exam_simulator">Exam Simulator</a></li>-->
+                                        <!--<li>-&#45;&#45;&#45;&#45;</li>-->
+                                    <!--</ul>-->
+                                <!--</li>-->
+                                <!--<li><a href="/exam_simulator">Exam Simulator</a>-->
+
+                                <!--<li><a href="#!">Benefits</a>-->
+                                    <!--<ul class="sub-menu">-->
+                                        <!--<li><a href="/pdu">PDU</a></li>-->
+                                        <!--<li><a href="/assesorie">Assesorie</a></li>-->
+                                        <!--<li><a href="/assesorie">Assesorie</a></li>-->
+                                    <!--</ul>-->
+                                <!--</li>-->
+
+                                <!--<li><a href="#!">Reviews</a>-->
+                                    <!--<ul class="sub-menu">-->
+                                        <!--<li><a href="/comments">comments</a></li>-->
+                                        <!--<li><a href="/profiles">Profiles</a></li>-->
+                                    <!--</ul>-->
+                                <!--</li>-->
+
+
+                                <!--<li><a href="#!">Contact Us</a>-->
+                                    <!--<ul class="sub-menu">-->
+                                        <!--<li><a href="mailto:bugsupport@company.com">Report a Bug</a></li>-->
+                                        <!--<li><a href="/support">Customer Support</a></li>-->
+                                    <!--</ul>-->
+                                <!--</li>-->
+
+
+                            <!--</ul>-->
+                        <!--</nav>-->
+                    <!--</div>-->
+
+
+                    <table border="2px solid gray" style="margin-left:auto; margin-right:auto;height:50px;width:1100px;background-color:silver;line-height:15px">
+                        <tr>
+                            <td><a href="/">Home</a></td>
+                            <td><a href="/my_app/add_user/">Add User</a></td>
+                            <td><a href="/my_app/remove_user/">Remove User</a></td>
+                            <td><a href="/my_app/list_users/">List Users</a></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    {% block section1 %}
+                    {% endblock %}
+                </td>
+            </tr>
+        </table>
+
+        <div id="footer">
+             © 2016 DK inc. All Rights Reserved.
+        </div>
+
+    </body>
+</html>
+
