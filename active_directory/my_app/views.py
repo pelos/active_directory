@@ -3,6 +3,7 @@ from .forms import add_user_form, remove_user_form
 # Create your views here.
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from .models import User, Emails, Phones
 
 def index(request):
     # return HttpResponse("Hello, world. You're at the my_app index.")
@@ -14,14 +15,49 @@ def add_user(request):
     if request.method == 'POST':
         form = add_user_form(request.POST)
         if form.is_valid():
-            return HttpResponseRedirect('/thanks/')
+            name = form.cleaned_data['name']
+            last_name = form.cleaned_data['last_name']
+            email1 = form.cleaned_data['email1']
+            email2 = form.cleaned_data['email2']
+            phone1 = form.cleaned_data['phone1']
+            phone2 = form.cleaned_data['phone2']
+            user_name = name+"_"+last_name
+
+            # if the user_name already exists
+            user_name_q = User.objects.filter(user_name=user_name)
+            if len(user_name_q) == 0:
+
+                user_model = User(name=name, last_name=last_name, user_name=user_name)
+                user_model.save()
+                emails_model = Emails(user_name=user_model, email1=email1, email2=email2)
+                emails_model.save()
+                phones_model = Phones(user_name=user_model, phone1=phone1, phone2=phone2)
+                phones_model.save()
+
+                form = add_user_form()
+                context = {
+                    "page_redirect": "/my_app/add_user/",
+                    "message": "User " + user_name + " has been added to the database",
+                    "form": form,
+                    }
+                return render(request, 'my_app_template.html', context)
+                # return HttpResponseRedirect('/my_app/add_user/')
+            else:
+                form = add_user_form()
+                context = {
+                    "page_redirect": "/my_app/add_user/",
+                    "message": "User " + user_name + " already exists database",
+                    "form": form,
+                }
+                return render(request, 'my_app_template.html', context)
+
     else:
         form = add_user_form()
 
 
     context = {
-            "message": "Add User",
-            'my_app_key': ["this is my_app_value1x", "this is my_app_value2x", "this is my_app_value3x"],
+            "page_redirect": "/my_app/add_user/",
+            "message": "Add User Email2 and Phone2 can be leave blank",
             "form": form,
             }
     return render(request, 'my_app_template.html', context)
@@ -39,47 +75,47 @@ def add_user(request):
 
 
 def remove_user(request):
+    all_users = User.objects.all()
+    list_of_users = []
+    for i in all_users:
+        list_of_users.append(i.user_name)
+
     if request.method == 'POST':
         form = remove_user_form(request.POST)
         if form.is_valid():
-            return HttpResponseRedirect('/thanks/')
+            user_name = form.cleaned_data['user_name']
+            try:
+                message = "User " + user_name + " has been Remove from the database"
+                user_name_q = User.objects.get(user_name=user_name)
+                user_name_q.delete()
+            except:
+                message = "User " + user_name + " was not found in the database, no action perform"
+
+            form = remove_user_form()
+            context = {
+                "list_of_users": list_of_users,
+                "page_redirect": "/my_app/remove_user/",
+                "message": message,
+                "form": form,
+            }
+            return render(request, 'my_app_template.html', context)
+            #return HttpResponseRedirect('/my_app/remove_user/')
     else:
         form = remove_user_form()
 
-    list_of_users =[
-        "Martin Bacon",
-        "Kandy Tellier",
-        "Graig Liggins",
-        "Edith Amy",
-        "Jamika Yanes",
-        "Reva Ruggerio",
-        "Cary Stocks",
-        "Daisy Soderman",
-        "Jeannie Paolucci",
-        "Kristie Screws",
-        "Fernanda Toki",
-        "Rebekah Clawson",
-        "Owen Grossi",
-        "Erlinda Soriano",
-        "Yasmin Newlin",
-        "Kaitlyn Trial",
-        "Chantel Daw",
-        "Esperanza Dominguez",
-        "Mirtha Gossard",
-        "Zelma Lemus",
-    ]
-
-
-
     context = {
         "list_of_users": list_of_users,
+        "page_redirect": "/my_app/remove_user/",
         "message": "Remove User",
-        'my_app_key': ["this is my_app_value1x", "this is my_app_value2x", "this is my_app_value3x"],
         "form": form,
         }
 
-
     return render(request, 'my_app_template.html', context)
+
+
+
+
+
 
 
 

@@ -23,7 +23,7 @@ $( "#tags" ).autocomplete({
 <p>{{ message }}</p>
 
 <table>
-    <form action="/your-name/" method="post">
+    <form action="{{ page_redirect }}" method="post">
         {% for field in form %}
             <div>
                 {% csrf_token %}

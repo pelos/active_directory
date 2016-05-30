@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from my_app import views
 
 urlpatterns = [
     url(r'^my_app/', include('my_app.urls')),
     url(r'^admin/', admin.site.urls),
 
-
     # if you dont catch anything  just go to main webpage
-    url(r'^', "my_app.views.main_page"),
+    # url(r'^', "my_app.views.main_page"),
+
+    url(r'^', views.main_page),
 ]
