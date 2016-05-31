@@ -1,0 +1,37 @@
+{% extends 'main_template.html' %}
+
+{% block section1 %}
+
+
+
+<p>{{ message }}</p>
+
+<div id="div_selector">
+    <select multiple="multiple" id="sb1" size="20" style="multiple:multiple; width:600px; padding: 0px 0px 0px 10px; width: 600px; position:relative; right:-1%;">
+        {% for i in list_of_users %}
+            <option value="{{ i }}"> {{ i }} </option>
+        {% endfor %}
+    </select>
+</div>
+
+{#<input style="display:table;margin:auto;width:90%;" type="button" id="run_s" value="Submit"/>#}
+{# <a id="run_link" href=/?options_selection=><button class="myButton" style="display:none;">send link</button></a> #}
+{#<a id="run_link" href=/place_holder><button>send link</button></a>#}
+
+
+{#<script>#}
+{#    document.getElementById("run_s").onclick = function(){#}
+{#        var lista = document.getElementById("sb1");#}
+{#        var my_txt = "";#}
+{#            for (var j=0; j<lista.length; j++){#}
+{#                if (lista.options[j].selected){#}
+{#                    my_txt = my_txt + lista[j].text + "***"#}
+{#                }#}
+{#            }#}
+{#    document.getElementById("run_link").setAttribute("href", "/my_app/run_delete/?user_del="+my_txt+"/");#}
+{#    document.getElementById("run_link").click();#}
+{#    }#}
+{#</script>#}
+
+
+{% endblock %}
