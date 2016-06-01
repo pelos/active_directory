@@ -146,8 +146,8 @@ def run_delete(request):
         for i in lista_user[:-1]:
             print(i)
             text_user_display += i + ", "
-            # user_name_q = User.objects.get(user_name=i)
-            # user_name_q.delete()
+            user_name_q = User.objects.get(user_name=i)
+            user_name_q.delete()
 
 
     all_users = User.objects.all()
