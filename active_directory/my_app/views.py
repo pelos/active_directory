@@ -4,6 +4,9 @@ from .forms import add_user_form, remove_user_form
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from .models import User, Emails, Phones
+from django.core.urlresolvers import reverse
+from django.core.urlresolvers import resolve
+
 
 def index(request):
     # return HttpResponse("Hello, world. You're at the my_app index.")
@@ -36,6 +39,7 @@ def add_user(request):
 
                 form = add_user_form()
                 context = {
+                    "button_text": "Add User",
                     "page_redirect": "/my_app/add_user/",
                     "message": "User " + user_name + " has been added to the database",
                     "form": form,
@@ -45,6 +49,7 @@ def add_user(request):
             else:
                 form = add_user_form()
                 context = {
+                    "button_text": "Add User",
                     "page_redirect": "/my_app/add_user/",
                     "message": "User " + user_name + " already exists database",
                     "form": form,
@@ -56,6 +61,7 @@ def add_user(request):
 
 
     context = {
+            "button_text": "Add User",
             "page_redirect": "/my_app/add_user/",
             "message": "Add User Email2 and Phone2 can be leave blank",
             "form": form,
@@ -82,6 +88,7 @@ def remove_user(request):
 
             form = remove_user_form()
             context = {
+                "button_text": "Remove User",
                 "list_of_users": list_of_users,
                 "page_redirect": "/my_app/remove_user/",
                 "message": message,
@@ -93,6 +100,7 @@ def remove_user(request):
         form = remove_user_form()
 
     context = {
+        "button_text": "Remove User",
         "list_of_users": list_of_users,
         "page_redirect": "/my_app/remove_user/",
         "message": "Remove User",
@@ -129,15 +137,34 @@ def list_users(request):
     return render(request, 'my_app_template_list.html', context)
 
 
-def run_delete(request, user_del):
-    print(1)
-    print(user_del)
-    print(2)
-    return HttpResponseRedirect('/my_app/blablabla/')
+def run_delete(request):
+    if  request.GET.get('user_del'):
+        user_del = request.GET.get('user_del')
+        lista_user = user_del.split("***")
+
+        text_user_display = ""
+        for i in lista_user[:-1]:
+            print(i)
+            text_user_display += i + ", "
+            # user_name_q = User.objects.get(user_name=i)
+            # user_name_q.delete()
 
 
+    all_users = User.objects.all()
+    list_of_users = []
+    for i in all_users:
+        list_of_users.append(i.user_name)
+    context = {
+        "list_of_users": list_of_users,
+        "page_redirect": "/my_app/list_users/",
+        "message": "Removed: " + text_user_display
+        }
 
+    #this shows the display message but also leaves the URL with the full path showing how the variables are pass
+    # return render(request, 'my_app_template_list.html', context)
 
+    #this will reset to list_users website
+    return HttpResponseRedirect(reverse("list_users"), context)
 
 
 
